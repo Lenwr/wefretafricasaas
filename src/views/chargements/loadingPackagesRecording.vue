@@ -119,7 +119,7 @@ async function deleteLoad(id) {
                 <input v-model="chargement.date" type="datetime-local" required class="input input-bordered w-full" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-900">Contenaire</label>
+                <label class="block text-sm font-medium text-gray-900">Envoi</label>
                 <input v-model="chargement.contenaire" type="text" required class="input input-bordered w-full" />
               </div>
               <button type="submit" class="btn btn-primary w-full">Enregistrer</button>

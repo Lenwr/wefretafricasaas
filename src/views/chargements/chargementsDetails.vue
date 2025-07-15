@@ -83,10 +83,10 @@ async function onDecode(text) {
     detailIndex: Number(detailIndex),
     coli,
     date: new Date().toISOString(),
-    status: 'scanné',
+    status: 'réceptionné',
     historique: [
       {
-        status: 'scanné',
+        status: 'réceptionné',
         date: new Date().toISOString()
       }
     ],
@@ -199,7 +199,7 @@ onMounted(async () => {
 
   <div class="flex justify-center mb-4 gap-2">
     <select v-model="statutSelectionne" class="select select-bordered">
-      <option value="scanné">Réceptionné</option>
+      <option value="réceptionné">Réceptionné</option>
       <option value="expédié">Expédié</option>
       <option value="disponible pour retrait">Disponible pour retrait</option>
       <option value="livré">Livré</option>

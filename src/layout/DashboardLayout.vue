@@ -10,7 +10,7 @@ const navLinks = [
   { to: '/', icon: Home, label: 'Dashboard' },
   { to: '/customers', icon: Users, label: 'Clients' },
   { to: '/liste', icon: Package, label: 'Colis' },
-  { to: '/recording', icon: Truck, label: 'Contenaires' },
+  { to: '/recording', icon: Truck, label: 'Expédition' },
   { to: '/settings', icon: Settings, label: 'Paramètres' },
 ]
 </script>
