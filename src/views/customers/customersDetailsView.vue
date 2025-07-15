@@ -193,7 +193,7 @@ async function send() {
     <!-- Modal Formulaire -->
     <dialog id="formModal" class="modal modal-bottom sm:modal-middle" ref="formModal">
       <div class="modal-box h-[80%] bg-white text-black">
-        <Form :myId="myId" />
+        <Form :myId="myId" :expediteurData="liste" />
         <div class="modal-action">
           <form method="dialog">
             <button class="btn btn-error mb-8 text-white">Fermer</button>

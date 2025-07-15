@@ -2,15 +2,25 @@
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { getFirestore, collection, addDoc } from 'firebase/firestore'
-import { ref } from 'vue'
-import SelectCustomersView from '../customers/selectCustomersView.vue'
+import { ref, onMounted, watch } from 'vue'
 import { defineProps } from 'vue'
+import SelectCustomersView from '../customers/selectCustomersView.vue'
 import { useEntrepriseId } from '../../components/userEntrepriseId'
 
+// Props
 const props = defineProps({
   myId: String,
+  expediteurData: Object, // optionnelle
 })
 
+// Firestore
+const db = getFirestore()
+const enlevementsCollection = collection(db, 'enlevements')
+
+// Entreprise ID
+const { entrepriseId, isLoading } = useEntrepriseId()
+
+// Reactive form state
 const customer = ref({
   expediteur: '',
   statut: '',
@@ -24,62 +34,58 @@ const customer = ref({
   modeDePaiement: '',
   resteAPayer: '',
   date: '',
-});
+})
 
-const colisList = ref([
-  { nom: '', quantite: 1, statutColis: false }
-]);
+const colisList = ref([{ nom: '', quantite: 1, statutColis: false }])
 
-const db = getFirestore()
-const enlevementsCollection = collection(db, 'enlevements')
-
-// Composable entrepriseId
-const { entrepriseId, isLoading } = useEntrepriseId()
-console.log(entrepriseId)
+// Pré-remplir si `expediteurData` dispo
+watch(
+  () => props.expediteurData,
+  (newVal) => {
+    if (newVal) {
+      customer.value.expediteur = `${newVal.nom} ${newVal.prenom}`
+      customer.value.telephoneExpediteur = newVal.telephone
+    }
+  },
+  { immediate: true }
+)
 
 const ajouterColis = () => {
-  colisList.value.push({
-    nom: '',
-    quantite: 1,
-    statutColis: false
-  });
-};
+  colisList.value.push({ nom: '', quantite: 1, statutColis: false })
+}
 
 const supprimerColis = (index) => {
   colisList.value.splice(index, 1)
 }
 
-function genererNumeroUnique() {
-  const now = new Date();
-  const date = now.toISOString().slice(0, 10).replace(/-/g, '');
-  const time = now.toTimeString().slice(0, 8).replace(/:/g, '');
-  const random = Math.floor(Math.random() * 1000);
-  return `COLIS-${date}-${time}-${random}`;
+const genererNumeroUnique = () => {
+  const now = new Date()
+  const date = now.toISOString().slice(0, 10).replace(/-/g, '')
+  const time = now.toTimeString().slice(0, 8).replace(/:/g, '')
+  const random = Math.floor(Math.random() * 1000)
+  return `COLIS-${date}-${time}-${random}`
 }
 
-async function send() {
+const send = async () => {
   try {
     if (isLoading.value) {
-      toast("Chargement des infos entreprise...", {
-        type: "info",
-        autoClose: 1500,
-      });
-      return;
+      toast("Chargement entreprise...", { type: "info", autoClose: 1500 })
+      return
     }
 
-    const numeroUnique = genererNumeroUnique();
+    const numeroUnique = genererNumeroUnique()
 
     const colisData = colisList.value.map(colis => {
       const details = Array.from({ length: colis.quantite }, (_, i) => ({
         coli: `${colis.nom} ${i + 1}/${colis.quantite}`,
-        statutColis: colis.statutColis || false
-      }));
+        statutColis: colis.statutColis || false,
+      }))
       return {
         nom: colis.nom,
         quantite: colis.quantite,
-        details
-      };
-    });
+        details,
+      }
+    })
 
     const Data = {
       numero: numeroUnique,
@@ -99,11 +105,13 @@ async function send() {
       resteAPayer: customer.value.resteAPayer,
       date: customer.value.date,
       deliveryStatus: 'En attente',
-      customerId: props.myId || "",
-      entrepriseId: entrepriseId.value || ""
+      customerId: props.myId || '',
+      entrepriseId: entrepriseId.value || ''
     }
 
     await addDoc(enlevementsCollection, Data)
+
+    toast("Formulaire envoyé", { type: "success", autoClose: 1000 })
 
     // Reset form
     customer.value = {
@@ -119,28 +127,15 @@ async function send() {
       modeDePaiement: '',
       resteAPayer: '',
       date: '',
-    };
-
-    colisList.value = [
-      { nom: '', quantite: 1, statutColis: false }
-    ];
-
-    toast("Formulaire envoyé", {
-      theme: "auto",
-      type: "success",
-      autoClose: 1000,
-    });
-
+    }
+    colisList.value = [{ nom: '', quantite: 1, statutColis: false }]
   } catch (error) {
-    console.error("Erreur lors de l'envoi du formulaire :", error)
-    toast("Erreur lors de l'envoi", {
-      theme: "auto",
-      type: "error",
-      autoClose: 1500,
-    });
+    console.error("Erreur formulaire :", error)
+    toast("Erreur lors de l'envoi", { type: "error", autoClose: 1500 })
   }
 }
 </script>
+
 
 <template>
   <div class="bg-white flex flex-1 flex-col justify-center px-6 py-8 lg:px-8">
