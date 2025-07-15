@@ -189,6 +189,13 @@ const send = async () => {
         </div>
 
         <div>
+          <label for="destination" class="block text-sm font-medium text-gray-900">Destination</label>
+          <input type="tel" id="telephoneDestinataire" v-model="customer.destination"
+            class="mt-2 block h-[3em] w-full rounded-md border-0 py-1.5 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
+            focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" placeholder="destination" />
+        </div>
+
+        <div>
           <label for="typeDeFret" class="block text-sm font-medium text-gray-900">Type de Fret</label>
           <select id="typeDeFret" v-model="customer.typeDeFret"
             class="mt-2 block h-[3em] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300

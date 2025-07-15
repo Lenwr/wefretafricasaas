@@ -199,7 +199,7 @@ onMounted(async () => {
 
   <div class="flex justify-center mb-4 gap-2">
     <select v-model="statutSelectionne" class="select select-bordered">
-      <option value="scanné">Scanné</option>
+      <option value="scanné">Réceptionné</option>
       <option value="expédié">Expédié</option>
       <option value="disponible pour retrait">Disponible pour retrait</option>
       <option value="livré">Livré</option>
