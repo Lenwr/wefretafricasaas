@@ -529,16 +529,16 @@ const afficherPDF = async (client) => {
   pdf.setFontSize(9);
   pdf.setTextColor(150);
   pdf.text(
-    `Document généré automatiquement le ${new Date().toLocaleDateString()}`,
+    `Document généré par ${entreprise.value.nom}  le ${new Date().toLocaleDateString()}`,
     20,
-    290
+    282
   );
   pdf.setTextColor(100);
   pdf.setFontSize(13);
   pdf.text(
     `Numero de suivi : ${client.numero}`,
     20,
-    295
+    287
   );
 
   const blob = pdf.output("blob");
