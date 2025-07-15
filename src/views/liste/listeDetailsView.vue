@@ -27,7 +27,7 @@ const datas = useCollection(collection(db, "enlevements"));
 const database = getFirestore();
 const detailId = ref(route.params.id);
 import { useEntrepriseId } from '../../components/userEntrepriseId.js'
-const { entrepriseId, isLoading2} = useEntrepriseId()
+const { entrepriseId, isLoading2 } = useEntrepriseId()
 
 
 
@@ -405,12 +405,12 @@ const afficherPDF = async (client) => {
 
   let logoBase64 = '';
   if (entreprise.value.logoUrl) {
-  try {
-    logoBase64 = await getBase64ImageFromUrl(entreprise.value.logoUrl);
-  } catch (error) {
-    console.error("Erreur conversion logo base64 :", error);
+    try {
+      logoBase64 = await getBase64ImageFromUrl(entreprise.value.logoUrl);
+    } catch (error) {
+      console.error("Erreur conversion logo base64 :", error);
+    }
   }
-}
 
   const canvasElement = document.getElementById("qr_code");
   if (!canvasElement) {
@@ -431,7 +431,6 @@ const afficherPDF = async (client) => {
   const adresseSplit = pdf.splitTextToSize(entreprise.value.adresse, 150);
   pdf.text(adresseSplit, 20, y);
   y += 7 * adresseSplit.length;
-  y += 6;
   pdf.text(`Téléphone: ${entreprise.value.tel}`, 20, y);
   y += 6;
   pdf.text(`Email: ${entreprise.value.email}`, 20, y);
@@ -669,7 +668,7 @@ const qrCodeColis = async () => {
 <template>
   <div class="bg-white ">
     <div class="main flex flex-row justify-around bg-green  py-10">
-          <!--
+      <!--
       <div v-if="!Array.isArray(client.imageUrl)"
         class="up aspect-h-1 md:h-[40em] h-[25em]  aspect-w-1 w-[45%] overflow-hidden shadow-2xl rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
         <img :src="client.imageUrl" class="h-full w-full object-cover object-center group-hover:opacity-75" />
