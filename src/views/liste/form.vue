@@ -51,7 +51,7 @@ watch(
 )
 
 const ajouterColis = () => {
-  colisList.value.push({ nom: '', quantite: 1, statutColis: false })
+  colisList.value.push({ nom: '', quantite: 1, statutColis: "En attente de reception" })
 }
 
 const supprimerColis = (index) => {

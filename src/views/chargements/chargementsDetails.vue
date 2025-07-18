@@ -197,7 +197,8 @@ onMounted(async () => {
     </button>
   </div>
 
-  <div class="flex justify-center mb-4 gap-2">
+
+    <div class="flex  flex-col px-[10%] sm:flex-row justify-center mb-4 gap-2">
     <select v-model="statutSelectionne" class="select select-bordered">
       <option value="réceptionné">Réceptionné</option>
       <option value="expédié">Expédié</option>
@@ -208,6 +209,7 @@ onMounted(async () => {
       Mettre à jour les statuts
     </button>
   </div>
+
 
   <div class="flex justify-center bg-black" v-if="displayScanner">
     <StreamBarcodeReader @decode="onDecode" />
@@ -245,7 +247,7 @@ onMounted(async () => {
     <Export class="text-black" :dataSend="chargement?.packagesTable || []" />
   </div>
 
-  <div class="flex flex-col my-10 px-4">
+  <div class="flex hidden flex-col my-10 px-4">
     <h3 class="text-center text-xl font-bold text-primary mb-4">📦 Détail des statuts des articles du colis</h3>
     <div class="overflow-x-auto">
       <table class="min-w-full bg-white shadow-md rounded-xl overflow-hidden">

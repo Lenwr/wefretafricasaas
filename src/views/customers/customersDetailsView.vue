@@ -178,7 +178,7 @@ async function send() {
       <div v-for="(item, i) in listeColis" :key="i"
         class="bg-white border border-gray-200 px-6 py-4 rounded-lg shadow-sm flex justify-between items-center hover:shadow-md transition duration-300">
         <span class="text-gray-700 font-medium">
-          Enlèvement du {{ formatDateTime(item.date) }}
+          Colis du {{ formatDateTime(item.date) }}
         </span>
         <router-link :to="'/liste/' + item.id">
           <button

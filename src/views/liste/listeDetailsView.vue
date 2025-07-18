@@ -723,7 +723,7 @@ const qrCodeColis = async () => {
                     class="pl-3 border-l-4 text-black border-green-500 text-sm">
                     <span class="font-medium">{{ detail.coli }}</span> —
                     <span :class="detail.statutColis ? 'text-green-600' : 'text-red-600'">
-                      {{ detail.statutColis ? 'Réceptionné' : 'En attente' }}
+                      {{ detail.statutColis}}
                     </span>
                   </li>
                 </ul>
@@ -818,6 +818,8 @@ const qrCodeColis = async () => {
 
           </div>
 
+            <!-- Mise en place du Qr Code 2 
+
           <button
             class="w-full bg-green-500 outline-2 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition duration-300 flex items-center justify-center"
             @click="sendSMS(client)" :disabled="isLoading">
@@ -832,6 +834,7 @@ const qrCodeColis = async () => {
               Envoyer le Bordereau
             </template>
           </button>
+           -->
 
         </div>
 

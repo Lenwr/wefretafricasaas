@@ -16,10 +16,10 @@ const navLinks = [
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen bg-gray-50 text-gray-800">
+  <div class="flex flex-col min-h-screen  bg-gray-50 text-gray-800">
 
     <!-- Navbar (top) -->
-    <div class="flex flex-row py-2 bg-primary justify-around  text-white z-50">
+    <div class=" py-2  flex flex-row bg-primary w-screen fixed justify-around  text-white z-50">
       <div class="">
 
         <div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200 shadow">
@@ -54,7 +54,7 @@ const navLinks = [
 
     </div>
     <!-- Nav mobile scrollable en haut -->
-    <nav class="md:hidden bg-white shadow-inner border-b px-4 py-3 overflow-x-auto whitespace-nowrap z-40 flex gap-2">
+    <nav class="md:hidden mt-[4em] bg-white shadow-inner border-b px-4 py-3 overflow-x-auto whitespace-nowrap z-40 flex gap-2">
       <router-link v-for="link in navLinks" :key="link.to" :to="link.to" v-slot="{ isActive }"
         class="inline-block px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap" :class="isActive
           ? 'bg-primary text-white'
@@ -64,10 +64,10 @@ const navLinks = [
     </nav>
 
     <!-- Layout body -->
-    <div class="flex flex-col md:flex-row bg-white pb-[5%] flex-1">
+    <div class="flex flex-col md:flex-row mt-[4em] bg-white flex-1">
 
       <!-- Sidebar desktop -->
-      <aside class="hidden md:flex h-screen w-20 md:w-60 bg-white shadow-lg flex-col items-center py-6 space-y-10">
+      <aside class="hidden bg-blue-100 md:flex w-20 md:w-60 pt-[5em]   flex-col items-center py-6 space-y-10">
         <nav class="space-y-8 text-sm font-medium w-full px-4">
           <router-link v-for="link in navLinks" :key="link.to" :to="link.to"
             class="flex items-center gap-3 hover:text-primary">
@@ -78,7 +78,7 @@ const navLinks = [
       </aside>
 
       <!-- Page content -->
-      <main class="flex-1 h-screen overflow-y-auto">
+      <main class="flex-1 mb-[5em]  h-screen overflow-y-auto">
         <router-view />
       </main>
     </div>
@@ -86,7 +86,7 @@ const navLinks = [
 
 
     <!-- Footer (mobile bottom navigation) -->
-    <div class="btm-nav bg-primary text-white">
+    <div class="btm-nav  bg-primary text-white">
       <router-link to="/">
         <button class="text-white">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

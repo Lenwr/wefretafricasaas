@@ -89,7 +89,7 @@ async function deleteLoad(id) {
   <div class="text-black">
     <!-- Header + bouton -->
     <div class="flex flex-row justify-around items-center m-8">
-      <h2>Enregistrer un nouveau chargement</h2>
+      <h2>Enregistrer un nouvel envoi</h2>
       <button class="btn btn-primary" onclick="modal.showModal()">Nouveau</button>
     </div>
 
