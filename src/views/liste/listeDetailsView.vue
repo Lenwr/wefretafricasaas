@@ -397,6 +397,18 @@ function genererTexteDescription(colisArray) {
   return resultats.join(", ");
 }
 
+const cleanPhoneNumber = (phone) => {
+  return phone?.replace(/[^0-9+]/g, '').trim() || '-';
+};
+
+const cleanText = (str) => {
+  return str
+    ?.normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // supprime les accents
+    .replace(/[^\w\s,.:;!?%€/-]/g, "") // supprime les caractères spéciaux
+    .trim() || '-';
+};
+
 const afficherPDF = async (client) => {
   if (!entreprise.value) {
     alert('Aucune entreprise trouvée');
@@ -420,20 +432,18 @@ const afficherPDF = async (client) => {
   const imageBase64 = canvasElement.toDataURL("image/png");
   const pdf = new jsPDF("p", "mm", "a4");
 
-  // Variables pour gérer la position verticale
   let y = 20;
 
   pdf.setFontSize(13);
-  pdf.text(entreprise.value.nom.toUpperCase(), 20, y);
+  pdf.text(cleanText(entreprise.value.nom.toUpperCase()), 20, y);
 
-  // Adresse avec retour à la ligne
   y += 6;
-  const adresseSplit = pdf.splitTextToSize(entreprise.value.adresse, 150);
+  const adresseSplit = pdf.splitTextToSize(cleanText(entreprise.value.adresse), 150);
   pdf.text(adresseSplit, 20, y);
   y += 7 * adresseSplit.length;
-  pdf.text(`Téléphone: ${entreprise.value.tel}`, 20, y);
+  pdf.text(`Téléphone: ${cleanPhoneNumber(entreprise.value.tel)}`, 20, y);
   y += 6;
-  pdf.text(`Email: ${entreprise.value.email}`, 20, y);
+  pdf.text(`Email: ${cleanText(entreprise.value.email)}`, 20, y);
 
   if (logoBase64) {
     pdf.addImage(logoBase64, "PNG", 150, 20, 40, 20);
@@ -443,7 +453,6 @@ const afficherPDF = async (client) => {
   pdf.setTextColor(0, 0, 0);
   pdf.addImage(imageBase64, "PNG", 20, y + 10, 30, 30);
 
-  // Ligne séparation
   pdf.setLineWidth(0.5);
   pdf.setLineDash([1]);
   pdf.line(8, y + 6, 205, y + 6);
@@ -459,17 +468,17 @@ const afficherPDF = async (client) => {
 
   // Expéditeur
   pdf.setDrawColor(0);
-  pdf.setFillColor(34, 139, 34); // vert forêt, plus soft
+  pdf.setFillColor(34, 139, 34);
   pdf.rect(54, y + 10, 60, 7, "F");
   pdf.setFontSize(15);
   pdf.setTextColor(255, 255, 255);
   pdf.text("EXPEDITEUR ", 59, y + 16);
   pdf.setFontSize(12);
   pdf.setTextColor(0, 0, 0);
-  pdf.text(client.expediteur.toUpperCase(), 54, y + 22);
-  pdf.text("Téléphone : " + client.telephoneExpediteur, 54, y + 28);
-  pdf.text("Nombre de colis : " + client.nombreDeColis, 54, y + 34);
-  pdf.text("Type de Fret : " + client.typeDeFret.toUpperCase(), 54, y + 39);
+  pdf.text(cleanText(client.expediteur.toUpperCase()), 54, y + 22);
+  pdf.text("Téléphone : " + cleanPhoneNumber(client.telephoneExpediteur), 54, y + 28);
+  pdf.text("Nombre de colis : " + (client.nombreDeColis || '-'), 54, y + 34);
+  pdf.text("Type de Fret : " + cleanText(client.typeDeFret?.toUpperCase()), 54, y + 39);
 
   // Destinataire
   pdf.setDrawColor(0);
@@ -480,8 +489,8 @@ const afficherPDF = async (client) => {
   pdf.text("DESTINATAIRE ", 125, y + 16);
   pdf.setFontSize(12);
   pdf.setTextColor(0, 0, 0);
-  pdf.text(client.destinataire.toUpperCase(), 125, y + 23);
-  pdf.text("Téléphone : " + client.telephoneDestinataire, 125, y + 29);
+  pdf.text(cleanText(client.destinataire.toUpperCase()), 125, y + 23);
+  pdf.text("Téléphone : " + cleanPhoneNumber(client.telephoneDestinataire), 125, y + 29);
 
   // Description
   pdf.setDrawColor(0);
@@ -491,7 +500,7 @@ const afficherPDF = async (client) => {
   pdf.text("Description", 35, y + 53);
 
   const texteDescription = client.description
-    ? client.description
+    ? cleanText(client.description)
     : genererTexteDescription(client.colis);
 
   let splitDescription = pdf.splitTextToSize(texteDescription, 110);
@@ -519,7 +528,7 @@ const afficherPDF = async (client) => {
 
   pdf.setFontSize(15);
   pdf.text(
-    "Observations : " + client.statut + "    Reste à payer : " + client.resteAPayer,
+    "Observations : " + cleanText(client.statut) + "    Reste à payer : " + (client.resteAPayer || ' - '),
     22,
     y + 218
   );
@@ -529,14 +538,14 @@ const afficherPDF = async (client) => {
   pdf.setFontSize(9);
   pdf.setTextColor(150);
   pdf.text(
-    `Document généré par ${entreprise.value.nom}  le ${new Date().toLocaleDateString()}`,
+    `Document généré par ${cleanText(entreprise.value.nom)}  le ${new Date().toLocaleDateString()}`,
     20,
     282
   );
   pdf.setTextColor(100);
   pdf.setFontSize(13);
   pdf.text(
-    `Numero de suivi : ${client.numero}`,
+    `Numero de suivi : ${cleanText(client.numero)}`,
     20,
     287
   );
@@ -545,7 +554,6 @@ const afficherPDF = async (client) => {
   const url = URL.createObjectURL(blob);
   window.open(url);
 };
-
 
 
 

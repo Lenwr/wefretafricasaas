@@ -23,7 +23,7 @@ const navLinks = [
       <div class="">
 
         <div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200 shadow">
-          <img :src="store.entreprise.logoUrl" alt="Logo entreprise" class="object-cover w-full h-full" />
+          <img src="https://i.ebayimg.com/images/g/kDsAAOSwbxZjjrwD/s-l1200.jpg" alt="Logo entreprise" class="object-cover w-full h-full" />
         </div>
       
       </div>
